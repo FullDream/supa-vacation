@@ -1,3 +1,4 @@
 {
   "extends": "next/core-web-vitals"
 }
+// postgresql://postgres:[YOUR-PASSWORD]@db.lnnenaeqcemuivnunuey.supabase.co:5432/postgres
