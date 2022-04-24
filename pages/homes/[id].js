@@ -1,10 +1,19 @@
+import { PrismaClient } from '@prisma/client'
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import Layout from '@/components/Layout'
-import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
 const ListedHome = (home = null) => {
+	const router = useRouter()
+
+	// Fallback version
+	if (router.isFallback) {
+		return 'Loading...'
+	}
+
+	console.log(home.image);
 	return (
 		<Layout>
 			<div className='max-w-screen-lg mx-auto'>
@@ -56,12 +65,11 @@ export async function getStaticPaths() {
 		paths: homes.map((home) => ({
 			params: { id: home.id },
 		})),
-		fallback: false,
+		fallback: true,
 	}
 }
 
 export async function getStaticProps({ params }) {
-	// Get the current home from the database
 	const home = await prisma.home.findUnique({
 		where: { id: params.id },
 	})
